@@ -13,6 +13,8 @@ urlpatterns = [
     path('add_book/', views.add_book, name='add_book'),  # Add book view
     path('edit_book/<int:book_id>/', views.change_book, name='change_book'),  # Edit book view
     path('delete_book/<int:book_id>/', views.delete_book, name='delete_book'),  # Delete book view
-]
+    path('admin/', views.admin_view, name='admin_view'),  # Admin URL
+    path('librarian/', views.librarian_view, name='librarian_view'),  # Librarian URL
+    path('member/', views.member_view, name='member_view'),  # Member URL
 ]
 
