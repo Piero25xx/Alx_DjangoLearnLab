@@ -17,3 +17,5 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
 
+def home(request):
+    return render(request, 'relationship_app/home.html')
