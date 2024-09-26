@@ -6,6 +6,9 @@ from django.contrib.auth import views as auth_views  # Import built-in login/log
 from django.contrib.auth.forms import UserCreationForm  # Import UserCreationForm for registration
 from django.contrib.auth import login  # To log in the user after registration
 from django.shortcuts import render, redirect  # To render templates and handle redirects
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import permission_required
+from .models import Book
 
 def list_books(request):
 
@@ -34,3 +37,29 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+# View to add a book, requires 'can_add_book' permission
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        # Your logic for adding a book
+        pass
+    return render(request, 'relationship_app/add_book.html')
+
+# View to change a book, requires 'can_change_book' permission
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def change_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    if request.method == 'POST':
+        # Your logic for changing a book
+        pass
+    return render(request, 'relationship_app/change_book.html', {'book': book})
+
+# View to delete a book, requires 'can_delete_book' permission
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('books_list')  # Redirect after deletion
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
