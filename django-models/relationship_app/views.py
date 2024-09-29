@@ -63,3 +63,16 @@ def delete_book(request, book_id):
         book.delete()
         return redirect('books_list')  # Redirect after deletion
     return render(request, 'relationship_app/delete_book.html', {'book': book})
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
+
