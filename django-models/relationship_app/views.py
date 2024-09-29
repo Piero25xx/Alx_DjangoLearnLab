@@ -8,6 +8,7 @@ from django.contrib.auth import login  # To log in the user after registration
 from django.shortcuts import render, redirect  # To render templates and handle redirects
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
 from .models import Book
 
 def list_books(request):
@@ -64,13 +65,31 @@ def delete_book(request, book_id):
         return redirect('books_list')  # Redirect after deletion
     return render(request, 'relationship_app/delete_book.html', {'book': book})
 
+
+def is_admin(user):
+    return user.userprofile.role == 'Admin'
+
+def is_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    return user.userprofile.role == 'Member'
+
+
+# Admin View
 @user_passes_test(is_admin)
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
-@user_passes_test(is_admin)
-def admin_view(request):
-    return render(request, 'relationship_app/admin_view.html')
+# Librarian View
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+# Member View
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
 
 @user_passes_test(is_member)
 def member_view(request):
