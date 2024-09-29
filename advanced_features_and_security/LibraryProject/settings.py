@@ -100,6 +100,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# settings.py
+
+AUTH_USER_MODEL = 'accounts.CustomUser'  # Replace 'accounts' with your app's name
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
