@@ -64,6 +64,11 @@ def delete_book(request, book_id):
         return redirect('books_list')  # Redirect after deletion
     return render(request, 'relationship_app/delete_book.html', {'book': book})
 
+@permission_required('bookshelf.can_view', raise_exception=True)
+def book_list(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
 @user_passes_test(is_admin)
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
