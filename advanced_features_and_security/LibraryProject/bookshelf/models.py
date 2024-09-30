@@ -55,6 +55,19 @@ class Librarian(models.Model):
     def __str__(self):
         return self.name
 
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    description = models.TextField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        ]
+
 # Custom User Manager
 class CustomUserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
