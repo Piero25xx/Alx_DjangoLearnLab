@@ -153,3 +153,24 @@ MIDDLEWARE = [
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')
 CSP_SCRIPT_SRC = ("'self'", 'https://trusted-scripts.com')
+
+# Enforce HTTPS redirect
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+
+# HSTS ensures that browsers only access the site over HTTPS
+SECURE_HSTS_SECONDS = 31536000  # One year of HSTS policy
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to subdomains
+SECURE_HSTS_PRELOAD = True  # Allow HSTS preloading
+
+# Cookies should only be transmitted over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Prevent clickjacking
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent MIME-sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser’s XSS filter
+SECURE_BROWSER_XSS_FILTER = True
