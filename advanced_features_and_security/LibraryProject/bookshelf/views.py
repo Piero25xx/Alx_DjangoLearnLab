@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect  # To render templates and handle 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from .forms import BookSearchForm
 
 def list_books(request):
 
@@ -66,8 +67,13 @@ def delete_book(request, book_id):
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
-    books = Book.objects.all()  # Fetch all books from the database
-    return render(request, 'bookshelf/book_list.html', {'books': books})
+     form = BookSearchForm(request.GET)
+    if form.is_valid():
+        author = form.cleaned_data['author']
+        books = Book.objects.filter(author__icontains=author)
+    else:
+        books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
 
 @user_passes_test(is_admin)
 def admin_view(request):
@@ -80,3 +86,4 @@ def admin_view(request):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
+
