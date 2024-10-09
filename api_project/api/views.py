@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView  # Import ListAPIView from Django REST Framework
+from rest_framework.generics import generics.ListAPIView  # Import ListAPIView from Django REST Framework
 from .models import Book
 from .serializers import BookSerializer
 
