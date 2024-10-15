@@ -1,10 +1,17 @@
 from django.shortcuts import render
+
 from rest_framework import generics
+
 from django_filters.rest_framework import DjangoFilterBackend
+
 from django_filters import rest_framework
+
 from rest_framework.filters import SearchFilter, OrderingFilter
+
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 from .models import Author, Book
+
 from .serializers import AuthorSerializer, BookSerializer
 
 class AuthorListView(generics.ListCreateAPIView):
@@ -24,10 +31,10 @@ class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ['title', 'author__name', 'publication_year']  # Filter by title, author name, and publication year
-    search_fields = ['title', 'author__name']  # Search in title and author name
-    ordering_fields = ['title', 'publication_year']  # Order by title and publication year
-    ordering = ['title']  # Default ordering
+    filterset_fields = ['title', 'author__name', 'publication_year']  
+    search_fields = ['title', 'author__name']  
+    ordering_fields = ['title', 'publication_year']  
+    ordering = ['title']  
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update, or delete a book."""
