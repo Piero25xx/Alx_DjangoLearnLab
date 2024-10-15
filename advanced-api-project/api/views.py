@@ -25,17 +25,17 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
 
 # Additional Views for Create, Update, and Delete
-class CreateView(generics.CreateAPIView):
-    """View to create an author or book."""
-    # Implement logic here if needed (e.g., dynamically handle models)
-    pass
+cclass CreateView(generics.CreateAPIView):
+    """View to create a new book."""
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
 class UpdateView(generics.UpdateAPIView):
-    """View to update an author or book."""
-    # Implement logic here if needed (e.g., dynamically handle models)
-    pass
+    """View to update an existing book."""
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
 class DeleteView(generics.DestroyAPIView):
-    """View to delete an author or book."""
-    # Implement logic here if needed (e.g., dynamically handle models)
-    pass
+    """View to delete an existing book."""
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
