@@ -1,9 +1,15 @@
+<!-- blog/templates/blog/post_confirm_delete.html -->
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Are you sure you want to delete "{{ post.title }}"?</h2>
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">Yes, delete</button>
-</form>
-<a href="{% url 'post-detail' post.pk %}">Cancel</a>
+  <h2>Are you sure you want to delete "{{ post.title }}"?</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+  </form>
+
+  <a href="{% url 'post-detail' post.pk %}">Cancel</a>
 {% endblock %}
+
+<a href="{% url 'post-list' %}">Back to All Posts</a>
