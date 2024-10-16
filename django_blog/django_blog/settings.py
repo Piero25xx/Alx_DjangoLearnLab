@@ -1,4 +1,66 @@
-"""
+Task Description:
+Build upon your initial setup by adding authentication functionalities to your django_blog project. This task involves setting up user registration, login, logout, and a simple profile management system.
+
+Step 1: Set Up User Authentication Views
+Authentication Views:
+Utilize Django’s built-in authentication views and forms to handle user login and logout. For registration and profile management, custom views will be created.
+Extend Django’s UserCreationForm for the registration form to include additional fields like email.
+Step 2: Create Templates for Authentication
+Templates for User Interactions:
+Develop HTML templates for login, registration, logout, and user profile pages. Ensure these templates are styled using the provided CSS.
+Templates should include forms for user input and should provide feedback for authentication errors or confirmations.
+Step 3: Configure URL Patterns
+Authentication URLs:
+Define URL patterns in blog/urls.py to handle paths for login (/login), logout (/logout), registration (/register), and profile management (/profile).
+Use Django’s path() function and the include() function to organize these URLs efficiently.
+Step 4: Implement Profile Management
+Profile Management Features:
+Develop a view that allows authenticated users to view and edit their profile details. This view should handle POST requests to update user information.
+Ensure the user can change their email and optionally extend the user model to include more fields like a profile picture or bio.
+Step 5: Test and Secure the Authentication System
+Testing and Security:
+Thoroughly test the registration, login, logout, and profile editing functionalities to ensure they work correctly and securely.
+Ensure that all forms are using CSRF tokens to protect against CSRF attacks.
+Passwords should be handled securely using Django’s built-in hashing algorithms.
+Step 6: Documentation
+Authentication Documentation:
+Provide detailed documentation on how the authentication system works, including descriptions of each part of the authentication process and how users interact with it.
+Include instructions on how to test each authentication feature.
+Deliverables:
+Code Files: Include all Python code for the authentication views, forms, and updated models if necessary.
+Template Files: Provide all HTML templates related to user authentication.
+Documentation: Detailed explanation of the authentication system, including setup instructions and user guides.Task Description:
+Build upon your initial setup by adding authentication functionalities to your django_blog project. This task involves setting up user registration, login, logout, and a simple profile management system.
+
+Step 1: Set Up User Authentication Views
+Authentication Views:
+Utilize Django’s built-in authentication views and forms to handle user login and logout. For registration and profile management, custom views will be created.
+Extend Django’s UserCreationForm for the registration form to include additional fields like email.
+Step 2: Create Templates for Authentication
+Templates for User Interactions:
+Develop HTML templates for login, registration, logout, and user profile pages. Ensure these templates are styled using the provided CSS.
+Templates should include forms for user input and should provide feedback for authentication errors or confirmations.
+Step 3: Configure URL Patterns
+Authentication URLs:
+Define URL patterns in blog/urls.py to handle paths for login (/login), logout (/logout), registration (/register), and profile management (/profile).
+Use Django’s path() function and the include() function to organize these URLs efficiently.
+Step 4: Implement Profile Management
+Profile Management Features:
+Develop a view that allows authenticated users to view and edit their profile details. This view should handle POST requests to update user information.
+Ensure the user can change their email and optionally extend the user model to include more fields like a profile picture or bio.
+Step 5: Test and Secure the Authentication System
+Testing and Security:
+Thoroughly test the registration, login, logout, and profile editing functionalities to ensure they work correctly and securely.
+Ensure that all forms are using CSRF tokens to protect against CSRF attacks.
+Passwords should be handled securely using Django’s built-in hashing algorithms.
+Step 6: Documentation
+Authentication Documentation:
+Provide detailed documentation on how the authentication system works, including descriptions of each part of the authentication process and how users interact with it.
+Include instructions on how to test each authentication feature.
+Deliverables:
+Code Files: Include all Python code for the authentication views, forms, and updated models if necessary.
+Template Files: Provide all HTML templates related to user authentication.
+Documentation: Detailed explanation of the authentication system, including setup instructions and user guides."""
 Django settings for django_blog project.
 
 Generated by 'django-admin startproject' using Django 5.1.2.
@@ -38,6 +100,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+
 ]
 
 MIDDLEWARE = [
@@ -51,11 +114,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_blog.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'blog', 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,6 +165,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# Authentication settings
+LOGIN_REDIRECT_URL = '/profile/'  # Redirects users to the profile page after login
+LOGOUT_REDIRECT_URL = '/login/'   # Redirects users to login page after logout
+LOGIN_URL = '/login/'
 
 
 # Internationalization
