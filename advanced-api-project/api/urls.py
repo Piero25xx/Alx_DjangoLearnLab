@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import AuthorListView, AuthorDetailView, BookListView, BookDetailView, CreateView, UpdateView, DeleteView
 
+router = DefaultRouter()
+router.register(r'books', BookViewSet)
+
 urlpatterns = [
     path('authors/', AuthorListView.as_view(), name='author-list'),
     path('authors/<int:pk>/', AuthorDetailView.as_view(), name='author-detail'),
@@ -9,4 +12,5 @@ urlpatterns = [
     path('books/create/', CreateView.as_view(), name='book-create'),  # New create endpoint
     path('books/update/<int:pk>/', UpdateView.as_view(), name='book-update'),  # New update endpoint
     path('books/delete/<int:pk>/', DeleteView.as_view(), name='book-delete'),  # New delete endpoint
+    path('', include(router.urls)),
 ]

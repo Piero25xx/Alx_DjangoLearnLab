@@ -6,11 +6,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from django_filters import rest_framework
 
-from rest_framework.filters import filters
+from rest_framework.filters import filters, SearchFilter, OrderingFilter
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from .models import Author, Book
+
+from rest_framework import filters
 
 from .serializers import AuthorSerializer, BookSerializer
 
@@ -34,7 +36,8 @@ class BookListView(generics.ListCreateAPIView):
     filterset_fields = ['title', 'author__name', 'publication_year']
     search_fields = ['title', 'author__name']
     ordering_fields = ['title', 'publication_year']
-    ordering = ['title']
+    ordering = ['title']
+
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     """View to retrieve, update, or delete a book."""
