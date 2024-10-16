@@ -17,3 +17,31 @@
 <a href="{% url 'post-edit' post.pk %}">Edit</a> |
 <a href="{% url 'post-delete' post.pk %}">Delete</a>
 <a href="{% url 'post-list' %}">Back to All Posts</a>
+
+<h2>Comments</h2>
+<div>
+    {% for comment in post.comments.all %}
+        <div>
+            <p><strong>{{ comment.author }}</strong> - {{ comment.created_at }}</p>
+            <p>{{ comment.content }}</p>
+            {% if comment.author == user %}
+                <a href="{% url 'comment-update' comment.id %}">Edit</a>
+                <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+            {% endif %}
+        </div>
+        <hr>
+    {% empty %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <h3>Add a Comment</h3>
+    <form method="post" action="{% url 'comment-create' post.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+{% endif %}
