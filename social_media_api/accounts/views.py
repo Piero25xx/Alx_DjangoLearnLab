@@ -1,11 +1,11 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, CustomUserSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
-from django.shortcuts import get_object_or_404
-from .models import User
+from django.shortcuts import get_object_or_404. render
+from .models import User, CustomUser
 
 
 class RegisterView(generics.CreateAPIView):
@@ -44,3 +44,14 @@ def unfollow_user(request, user_id):
     user_to_unfollow = get_object_or_404(User, id=user_id)
     request.user.following.remove(user_to_unfollow)
     return Response({"message": f"You have unfollowed {user_to_unfollow.username}."})
+
+lass CustomUserListView(generics.ListAPIView):
+    """View to list all users."""
+    queryset = CustomUser.objects.all()  # This line retrieves all CustomUser instances
+    serializer_class = CustomUserSerializer  # Specify the serializer to use
+
+# You can also include a detail view for individual users if needed
+class CustomUserDetailView(generics.RetrieveAPIView):
+    """View to retrieve a specific user."""
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer

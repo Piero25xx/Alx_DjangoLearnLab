@@ -4,6 +4,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
+from .models import CustomUser
+
 
 User = get_user_model()
 
@@ -40,3 +42,9 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid username or password.")
         
         return user
+    
+    class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'  # Or specify the fields you want to include
+        
