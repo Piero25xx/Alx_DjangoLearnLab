@@ -31,10 +31,10 @@ class PostForm(forms.ModelForm):
         widgets = {
             'tags': TagWidget(attrs={'placeholder': 'Add tags, separated by commas'}),}
        
-     def __init__(self, *args, **kwargs):
+       def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['tags'].help_text = "Enter tags separated by commas."
-
+        self.fields['tags'].help_text = "Use commas to separate tags."
+        
         class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
