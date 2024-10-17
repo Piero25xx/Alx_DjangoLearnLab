@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # Add this line for token authentication
     'accounts',
+    'posts',
     'django_filters'
+    
 ]
 
 MIDDLEWARE = [
