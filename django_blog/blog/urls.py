@@ -14,6 +14,10 @@ urlpatterns = [
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),  # View post details
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),  # Update post URL
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete post
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    
+# Add this URL pattern for posts by tag
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='post_by_tag'),
 
  # Search and tag filtering URLs
     path('search/', views.search_posts, name='search-posts'),
