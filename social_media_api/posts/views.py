@@ -71,6 +71,11 @@ class FeedView(generics.ListAPIView):
             )
             return Response({"message": "Post liked."}, status=status.HTTP_201_CREATED)
         return Response({"message": "Post already liked."}, status=status.HTTP_200_OK)
+    
+    def test_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)  # Temporary test function
+    return Response({"post": post.title})
+
 
 class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -84,3 +89,7 @@ class UnlikePostView(generics.GenericAPIView):
             return Response({"message": "Post unliked."}, status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
             return Response({"message": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        def test_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)  # Temporary test function
+    return Response({"post": post.title})
