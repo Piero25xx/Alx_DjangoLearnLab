@@ -45,20 +45,11 @@ class CommentViewSet(viewsets.ModelViewSet):
         return self.queryset.filter(author=self.request.user)  # Only allow users to see their comments
 
 
-class FeedView(generics.ListAPIView):
-    serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        following_users = user.following.all()  # Get all users that the current user follows
-        return Post.objects.filter(author__in=following_users).order_by('-created_at')  # Retrieve posts from followed users
-    
-  class LikePostView(generics.GenericAPIView):
+class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # This line must be present
+        post = get_object_or_404(Post, pk=pk)  # Ensure this line is present
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if created:
@@ -75,7 +66,7 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # This line must be present
+        post = get_object_or_404(Post, pk=pk)  # Ensure this line is present
         try:
             like = Like.objects.get(user=request.user, post=post)
             like.delete()
@@ -87,5 +78,5 @@ class TestView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # Ensure this line is here
-        return Response({"post_title": post.title})  # Return some data
+        post = get_object_or_404(Post, pk=pk)  # This line must be present
+        return Response({"post_title": post.title})
