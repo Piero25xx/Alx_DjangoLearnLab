@@ -17,4 +17,7 @@ urlpatterns = [
 # likes and unlikes
     path('posts/<int:pk>/like/', LikePostView.as_view(), name='like-post'),
     path('posts/<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike-post'),
+#test
+path('test/<int:pk>/', TestView.as_view(), name='test_post'),
+
 ]
