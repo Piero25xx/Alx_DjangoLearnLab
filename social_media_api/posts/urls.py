@@ -15,6 +15,6 @@ urlpatterns = [
     path('feed/', FeedView.as_view(), name='user_feed'),  # Add the feed route
 
 # likes and unlikes
-    path('<int:pk>/like/', LikePostView.as_view(), name='like_post'),
-    path('<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike_post'),
+    path('posts/<int:pk>/like/', LikePostView.as_view(), name='like-post'),
+    path('posts/<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike-post'),
 ]
