@@ -34,9 +34,9 @@ class PostForm(forms.ModelForm):
        def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tags'].help_text = "Use commas to separate tags."
-        
-        class CommentForm(forms.ModelForm):
-    class Meta:
+
+class CommentForm(forms.ModelForm):
+     class Meta:
         model = Comment
         fields = ['content']
         widgets = {
