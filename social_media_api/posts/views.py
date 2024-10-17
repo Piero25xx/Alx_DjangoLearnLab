@@ -14,6 +14,8 @@ from notifications.models import Notification
 
 from django.contrib.contenttypes.models import ContentType
 
+from django.shortcuts import get_object_or_404. 
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
