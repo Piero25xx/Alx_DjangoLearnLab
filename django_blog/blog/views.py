@@ -6,8 +6,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Post, comment
 from .forms import PostForm, CommentForm
-
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+
 
 def index(request):
     return render(request, 'your_app/index.html')
@@ -112,3 +114,21 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.get_object().author == self.request.user
+    
+    # Search view
+def search_posts(request):
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.none()
+    return render(request, 'blog/search_results.html', {'posts': posts})
+
+# Tag filtering view
+def posts_by_tag(request, tag_name):
+    posts = Post.objects.filter(tags__name=tag_name)
+    return render(request, 'blog/tagged_posts.html', {'posts': posts, 'tag_name': tag_name})

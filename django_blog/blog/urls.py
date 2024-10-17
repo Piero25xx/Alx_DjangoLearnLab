@@ -15,6 +15,10 @@ urlpatterns = [
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),  # Update post URL
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete post
 
+ # Search and tag filtering URLs
+    path('search/', views.search_posts, name='search-posts'),
+    path('tags/<str:tag_name>/', views.posts_by_tag, name='posts-by-tag'),
+    
     # Comment URLs
     path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-create'),  # Add a new comment
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),  # Edit a comment (should match checker expectation)

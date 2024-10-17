@@ -10,7 +10,8 @@ class Post(models.Model):
     published_date = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(auto_now=True)
-
+    tags = TaggableManager()  # Add this field for tagging
+    
     def __str__(self):
         return self.title
 

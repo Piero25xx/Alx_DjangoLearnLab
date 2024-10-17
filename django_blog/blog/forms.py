@@ -26,7 +26,11 @@ class UserUpdateForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
+       
+     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].help_text = "Enter tags separated by commas."
 
         class CommentForm(forms.ModelForm):
     class Meta:
