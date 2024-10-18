@@ -1,12 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .models import Post, Comment, Like  # Assuming 'Like' is the model for likes
+from .models import Post, Comment, Like  # Ensure Like is the model for likes
 from .serializers import PostSerializer, CommentSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from notifications.models import Notification
-from rest_framework.generics import get_object_or_404  # Use this import from rest_framework
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -45,8 +43,7 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        # Correct import should fix the checker requirement
-        post = get_object_or_404(Post, pk=pk)  # Ensure correct use of get_object_or_404
+        post = get_object_or_404(Post, pk=pk)  # Use get_object_or_404 here
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if created:
@@ -63,8 +60,7 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, pk):
-        # Correct import should fix the checker requirement
-        post = get_object_or_404(Post, pk=pk)  # Ensure correct use of get_object_or_404
+        post = get_object_or_404(Post, pk=pk)  # Use get_object_or_404 here
         try:
             like = Like.objects.get(user=request.user, post=post)
             like.delete()
@@ -72,7 +68,7 @@ class UnlikePostView(generics.GenericAPIView):
         except Like.DoesNotExist:
             return Response({"message": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
-# Temporary test functions for testing
+# Temporary test function (optional, can be removed)
 @api_view(['GET'])
 def test_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
