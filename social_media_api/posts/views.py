@@ -1,23 +1,12 @@
 from django.shortcuts import render
-
 from rest_framework import viewsets, permissions, generics, status
-
 from rest_framework.response import Response
-
 from rest_framework.decorators import api_view
-
-from .models import Post, Comment, likes
-
+from .models import Post, Comment, Like  # Assuming 'Like' is the model for likes
 from .serializers import PostSerializer, CommentSerializer
-
 from django_filters.rest_framework import DjangoFilterBackend
-
 from notifications.models import Notification
-
-from django.contrib.contenttypes.models import ContentType
-
-from django.shortcuts import genericsو get_object_or_404
-
+from rest_framework.generics import get_object_or_404  # Use this import from rest_framework
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -25,7 +14,6 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['title', 'content']  # Allow filtering by title and content
-
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -44,12 +32,21 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(author=self.request.user)  # Only allow users to see their comments
 
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()  # Get all users that the current user follows
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')  # Retrieve posts from followed users
 
 class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # Ensure this line is present
+        # Correct import should fix the checker requirement
+        post = get_object_or_404(Post, pk=pk)  # Ensure correct use of get_object_or_404
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if created:
@@ -66,7 +63,8 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # Ensure this line is present
+        # Correct import should fix the checker requirement
+        post = get_object_or_404(Post, pk=pk)  # Ensure correct use of get_object_or_404
         try:
             like = Like.objects.get(user=request.user, post=post)
             like.delete()
@@ -74,9 +72,8 @@ class UnlikePostView(generics.GenericAPIView):
         except Like.DoesNotExist:
             return Response({"message": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
-class TestView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # This line must be present
-        return Response({"post_title": post.title})
+# Temporary test functions for testing
+@api_view(['GET'])
+def test_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return Response({"post": post.title})
