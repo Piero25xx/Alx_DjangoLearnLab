@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,11 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-9^dipiay8fem5&9q9fesnkaaxrt=d2cq$p)e&ku(2x9e&f^3ay'
 
+# Get SECRET_KEY from environment variable or use a fallback value
+SECRET_KEY = os.getenv('django-insecure-9^dipiay8fem5&9q9fesnkaaxrt=d2cq$p)e&ku(2x9e&f^3ay')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Get DEBUG from environment variable and convert it to a boolean
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
+
+ALLOWED_HOSTS = ['socialmediaapi.heroku.com', 'yourserverip']
+
+# Get ALLOWED_HOSTS from environment variable and split by commas
+ALLOWED_HOSTS = os.getenv(socialmediaapi.heroku.com).split(',')
 
 # Application definition
 
@@ -82,10 +92,15 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'yourdbname',
+        'USER': 'yourdbuser',
+        'PASSWORD': 'yourdbpassword',
+        'HOST': 'yourdbhost',
+        'PORT': 'yourdbport',
     }
 }
+
 
 
 # Password validation
@@ -135,3 +150,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
